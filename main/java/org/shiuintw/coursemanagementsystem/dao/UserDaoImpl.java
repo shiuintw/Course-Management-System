@@ -17,6 +17,11 @@ public class UserDaoImpl implements UserDao {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
+    public UserDaoImpl(final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
     // --- util
     private Map<String, Object> parameterMap(UserRequest userRequest) {
         Map<String, Object> map = new HashMap<>();
@@ -27,11 +32,6 @@ public class UserDaoImpl implements UserDao {
         return map;
     }
     // --- end of util
-
-    @Autowired
-    public UserDaoImpl(final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
 
     @Override
     public User getUserById(String id) {
