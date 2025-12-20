@@ -1,5 +1,6 @@
-package org.shiuintw.coursemanagementsystem.dao;
+package org.shiuintw.coursemanagementsystem.dao.impl;
 
+import org.shiuintw.coursemanagementsystem.dao.InstructorDao;
 import org.shiuintw.coursemanagementsystem.model.Instructor;
 import org.shiuintw.coursemanagementsystem.mapper.InstructorRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;

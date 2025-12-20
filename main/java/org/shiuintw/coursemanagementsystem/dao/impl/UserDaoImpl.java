@@ -1,5 +1,6 @@
-package org.shiuintw.coursemanagementsystem.dao;
+package org.shiuintw.coursemanagementsystem.dao.impl;
 
+import org.shiuintw.coursemanagementsystem.dao.UserDao;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
 import org.shiuintw.coursemanagementsystem.mapper.UserRowMapper;

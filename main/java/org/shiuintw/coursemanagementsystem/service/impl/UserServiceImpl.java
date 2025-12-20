@@ -1,8 +1,9 @@
-package org.shiuintw.coursemanagementsystem.service;
+package org.shiuintw.coursemanagementsystem.service.impl;
 
 import org.shiuintw.coursemanagementsystem.dao.UserDao;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
+import org.shiuintw.coursemanagementsystem.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
