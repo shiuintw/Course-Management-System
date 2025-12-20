@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 public class UserController {
@@ -33,8 +34,8 @@ public class UserController {
         try {
             userService.register(userRequest);
             return "redirect:/login";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (ResponseStatusException e) {
+            model.addAttribute("error", e.getReason());
             return "register";
         }
     }
@@ -54,8 +55,8 @@ public class UserController {
             User user = userService.login(userRequest);
             session.setAttribute("user", user);
             return "redirect:/home";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (ResponseStatusException  e) {
+            model.addAttribute("error", e.getReason());
             return "login";
         }
     }
