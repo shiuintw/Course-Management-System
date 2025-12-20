@@ -19,6 +19,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> searchCourse(Course courseRequest) {
+        if (courseRequest.getId().isEmpty()) courseRequest.setId(null);
+        if (courseRequest.getName().isEmpty()) courseRequest.setName(null);
+        if (courseRequest.getBuildingId().isEmpty()) courseRequest.setBuildingId(null);
         return courseDao.searchCourse(courseRequest);
     }
 }

@@ -17,16 +17,16 @@ public class CourseResultSetExtractor implements ResultSetExtractor<List<Course>
         Map<String, Course> courseMap = new HashMap<>();
 
         while (rs.next()) {
-            String courseId = rs.getString("course_id");
-            if (courseMap.containsKey(courseId)) {
-                Course course = courseMap.get(courseId);
+            String id = rs.getString("id");
+            if (courseMap.containsKey(id)) {
+                Course course = courseMap.get(id);
                 course.getTime().add(rs.getString("time"));
                 course.getClassroom().add(rs.getString("classroom"));
                 course.getInstructorId().add(rs.getString("instructor_id"));
                 course.getCategory().add(rs.getString("category"));
             } else {
                 Course course = new Course();
-                course.setId(courseId);
+                course.setId(id);
                 course.setName(rs.getString("name"));
                 course.setCredit(rs.getInt("credit"));
                 course.setHours(rs.getInt("hours"));
@@ -40,7 +40,7 @@ public class CourseResultSetExtractor implements ResultSetExtractor<List<Course>
                 course.getInstructorId().add(rs.getString("instructor_id"));
                 course.setCategory(new ArrayList<>());
                 course.getCategory().add(rs.getString("category"));
-                courseMap.put(courseId, course);
+                courseMap.put(id, course);
             }
         }
         return new ArrayList<>(courseMap.values());
