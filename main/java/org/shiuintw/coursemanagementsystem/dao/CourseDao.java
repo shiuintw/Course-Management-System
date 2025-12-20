@@ -12,5 +12,5 @@ public interface CourseDao {
     void deleteCourse(String id);
 
     // search
-    List<Course> getCourse(Course courseRequest);
+    List<Course> searchCourse(Course courseRequest);
 }

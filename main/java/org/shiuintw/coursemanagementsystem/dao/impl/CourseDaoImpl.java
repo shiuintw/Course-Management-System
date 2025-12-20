@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +45,10 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public Course getCourseById(String id) {
         String sql = "SELECT * FROM course " +
-                "LEFT JOIN course_time USING(:id) " +
-                "LEFT JOIN course_classroom USING(:id) " +
-                "LEFT JOIN course_instructor_id USING(:id) " +
-                "LEFT JOIN course_category USING(:id) " +
+                "LEFT JOIN course_time USING(id) " +
+                "LEFT JOIN course_classroom USING(id) " +
+                "LEFT JOIN course_instructor_id USING(id) " +
+                "LEFT JOIN course_category USING(id) " +
                 "WHERE id = :id";
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -121,8 +122,73 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> getCourse(Course courseRequest) {
-        // todo
-        return List.of();
+    public List<Course> searchCourse(Course courseRequest) {
+        String sql = "SELECT * FROM course " +
+                "LEFT JOIN course_time USING(id) " +
+                "LEFT JOIN course_classroom USING(id) " +
+                "LEFT JOIN course_instructor_id USING(id) " +
+                "LEFT JOIN course_category USING(id) WHERE 1 = 1";
+        Map<String, Object> map = new HashMap<>();
+
+        // search param
+        if (courseRequest.getId() != null) {
+            sql += " AND id = :id";
+            map.put("id", courseRequest.getId());
+        }
+
+        if (courseRequest.getName() != null) {
+            sql += " AND name LIKE :name";
+            map.put("name", "%" + courseRequest.getName() + "%");
+        }
+
+        if (courseRequest.getCredit() != null) {
+            sql += " AND credit = :credit";
+            map.put("credit", courseRequest.getCredit());
+        }
+
+        if (courseRequest.getHours() != null) {
+            sql += " AND hours = :hours";
+            map.put("hours", courseRequest.getHours());
+        }
+
+        if (courseRequest.getMaxStudentNumber() != null) {
+            sql += " AND max_student_number = :maxStudentNumber";
+            map.put("maxStudentNumber", courseRequest.getMaxStudentNumber());
+        }
+
+        if (courseRequest.getTime() != null && !courseRequest.getTime().isEmpty()) {
+            sql += " AND `time` IN (:time)";
+            map.put("time", courseRequest.getTime());
+        }
+
+        if (courseRequest.getBuildingId() != null) {
+            sql += " AND building_id = :buildingId";
+            map.put("buildingId", courseRequest.getBuildingId());
+        }
+
+        if (courseRequest.getClassroom() != null && !courseRequest.getClassroom().isEmpty()) {
+            sql += " AND classroom IN (:classroom)";
+            map.put("classroom", courseRequest.getClassroom());
+        }
+
+        if (courseRequest.getInstructorId() != null && !courseRequest.getInstructorId().isEmpty()) {
+            sql += " AND instructor_id IN (:instructorId)";
+            map.put("instructorId", courseRequest.getInstructorId());
+        }
+
+        if (courseRequest.getCategory() != null && !courseRequest.getCategory().isEmpty()) {
+            sql += " AND category IN (:category)";
+            map.put("category", courseRequest.getCategory());
+        }
+
+        List<Course> tempCourse = namedParameterJdbcTemplate.query(sql, map, new CourseResultSetExtractor());
+
+        List<Course> completeCourseList = new ArrayList<>();
+        if (tempCourse != null && !tempCourse.isEmpty()) {
+            for (Course c : tempCourse) {
+                completeCourseList.add(getCourseById((c.getId())));
+            }
+        }
+        return completeCourseList;
     }
 }
