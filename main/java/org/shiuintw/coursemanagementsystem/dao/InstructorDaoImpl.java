@@ -1,7 +1,7 @@
 package org.shiuintw.coursemanagementsystem.dao;
 
 import org.shiuintw.coursemanagementsystem.model.Instructor;
-import org.shiuintw.coursemanagementsystem.rowmapper.InstructorRowMapper;
+import org.shiuintw.coursemanagementsystem.mapper.InstructorRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

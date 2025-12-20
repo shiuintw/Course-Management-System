@@ -1,4 +1,4 @@
-package org.shiuintw.coursemanagementsystem.rowmapper;
+package org.shiuintw.coursemanagementsystem.mapper;
 
 import org.shiuintw.coursemanagementsystem.model.User;
 import org.springframework.jdbc.core.RowMapper;
