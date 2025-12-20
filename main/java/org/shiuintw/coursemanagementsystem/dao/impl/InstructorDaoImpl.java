@@ -18,7 +18,7 @@ public class InstructorDaoImpl implements InstructorDao {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    InstructorDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public InstructorDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
