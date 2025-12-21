@@ -3,135 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <title>Course Search</title>
+    <link rel="stylesheet" th:href="@{/css/course.css}">
 </head>
+<script th:src="@{/js/course.js}"></script>
 <body>
-<h1>搜尋課程</h1>
+<h1>Search Course</h1>
 
 <form th:action="@{/course/search}" method="get">
-
-    <!-- 單選文字欄位 -->
     <div>
-        <label>課程 ID:</label>
+        <label>Course ID:</label>
         <label>
             <input type="text" name="id" th:value="${param.id}">
         </label>
     </div>
 
     <div>
-        <label>課程名稱:</label>
+        <label>Course Name:</label>
         <label>
             <input type="text" name="name" th:value="${param.name}">
         </label>
     </div>
 
-    <!-- 單選數字欄位 -->
     <div>
-        <label>學分:</label>
+        <label>Course Credit:</label>
         <label>
             <input type="number" name="credit" th:value="${param.credit}">
         </label>
     </div>
 
     <div>
-        <label>課程時數:</label>
+        <label>Course Hours:</label>
         <label>
             <input type="number" name="hours" th:value="${param.hours}">
         </label>
     </div>
 
     <div>
-        <label>最大學生數:</label>
+        <label>Course Max Student Number:</label>
         <label>
             <input type="number" name="maxStudentNumber" th:value="${param.maxStudentNumber}">
         </label>
     </div>
 
-    <!-- 多選欄位（checklist） -->
     <div>
-        <label>上課時間:</label><br>
-        <label>
-            <input type="checkbox" name="time" value="MonMorning"
-                   th:checked="${param.time != null and param.time.contains('MonMorning')}">
-        </label> MonMorning<br>
-        <label>
-            <input type="checkbox" name="time" value="TueAfternoon"
-                   th:checked="${param.time != null and param.time.contains('TueAfternoon')}">
-        </label> TueAfternoon<br>
-        <label>
-            <input type="checkbox" name="time" value="WedMorning"
-                   th:checked="${param.time != null and param.time.contains('WedMorning')}">
-        </label> WedMorning<br>
+        <label>Course Time:</label><br>
+
+        <div class="time-grid">
+            <div th:each="t : ${timeList}">
+                <label>
+                    <input type="checkbox" name="time"
+                           th:value="${t}"
+                           th:checked="${param.time != null and param.time.contains(t)}">
+                    <span th:text="${t}"></span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div>
-        <label>建築:</label>
+        <label>Course Building:</label>
         <label>
             <input type="text" name="buildingId" th:value="${param.buildingId}">
         </label>
     </div>
 
     <div>
-        <label>教室:</label><br>
+        <label>Course Classroom:</label>
         <label>
-            <input type="checkbox" name="classroom" value='101'
-                   th:checked="${param.classroom != null and param.classroom.contains('101')}">
-        </label> 101<br>
-        <label>
-            <input type="checkbox" name="classroom" value='102'
-                   th:checked="${param.classroom != null and param.classroom.contains('102')}">
-        </label> 102<br>
+            <input type="text" name="classroomStr" th:value="${param.classroomStr}">
+        </label>
     </div>
 
     <div>
-        <label>授課教師:</label><br>
+        <label>Course Instructor:</label>
         <label>
-            <input type="checkbox" name="instructorId" value="T1"
-                   th:checked="${param.instructorId != null and param.instructorId.contains('T1')}">
-        </label> T1<br>
-        <label>
-            <input type="checkbox" name="instructorId" value="T2"
-                   th:checked="${param.instructorId != null and param.instructorId.contains('T2')}">
-        </label> T2<br>
+            <input type="text" name="instructorIdStr" th:value="${param.instructorIdStr}">
+        </label>
     </div>
 
     <div>
-        <label>課程分類:</label><br>
-        <label>
-            <input type="checkbox" name="category" value="Math"
-                   th:checked="${param.category != null and param.category.contains('Math')}">
-        </label> Math<br>
-        <label>
-            <input type="checkbox" name="category" value="Science"
-                   th:checked="${param.category != null and param.category.contains('Science')}">
-        </label> Science<br>
+        <label>Course Category:</label><br>
+
+        <div class="category-grid">
+            <div th:each="t : ${categoryList}">
+                <label>
+                    <input type="checkbox" name="category"
+                           th:value="${t}"
+                           th:checked="${param.category != null and param.category.contains(t)}">
+                    <span th:text="${t}"></span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div>
-        <button type="submit">搜尋</button>
+        <button type="submit">Search</button>
     </div>
 
 </form>
 
 <hr>
 
-<h2>搜尋結果</h2>
+<h2>Search Result</h2>
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>名稱</th>
-        <th>學分</th>
-        <th>時數</th>
-        <th>最大學生數</th>
-        <th>時間</th>
-        <th>建築</th>
-        <th>教室</th>
-        <th>授課教師</th>
-        <th>分類</th>
+        <th>Name</th>
+        <th>Credit</th>
+        <th>Hours</th>
+        <th>Max Student Number</th>
+        <th>Time</th>
+        <th>Building</th>
+        <th>Classroom</th>
+        <th>Instructor</th>
+        <th>Category</th>
+        <th>Status</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="course : ${courseList}">
+    <tbody id="course">
+    <tr th:each="course : ${courseList}" th:data-course-id="${course.id}">
         <td th:text="${course.id}"></td>
         <td th:text="${course.name}"></td>
         <td th:text="${course.credit}"></td>
@@ -142,6 +133,12 @@
         <td th:text="${course.classroom}"></td>
         <td th:text="${course.instructorId}"></td>
         <td th:text="${course.category}"></td>
+        <td>
+            <span class="status"
+                  th:attr="data-course-id=${course.id}">
+                loading...
+            </span>
+        </td>
     </tr>
     </tbody>
 </table>
