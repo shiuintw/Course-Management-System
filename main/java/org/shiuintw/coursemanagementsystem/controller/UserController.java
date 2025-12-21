@@ -23,7 +23,10 @@ public class UserController {
 
     // register
     @GetMapping("/register")
-    public String showRegisterPage(Model model) {
+    public String showRegisterPage(HttpSession session,
+                                   Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) return "redirect:/home";
         model.addAttribute("user", new UserRequest());
         return "register";
     }
@@ -42,7 +45,10 @@ public class UserController {
 
     // login
     @GetMapping("/login")
-    String showLoginPage(Model model) {
+    String showLoginPage(HttpSession session,
+                         Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) return "redirect:/home";
         model.addAttribute("user", new UserRequest());
         return "login";
     }
