@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
         userUpdateRequest.setPassword(hashedPassword);
         userDao.updateUser(userUpdateRequest);
     }
+
+    @Override
+    public void deleteUserById(String userId) {
+        userDao.deleteUserById(userId);
+    }
 }

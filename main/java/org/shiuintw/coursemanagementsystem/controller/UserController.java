@@ -1,7 +1,6 @@
 package org.shiuintw.coursemanagementsystem.controller;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
 import org.shiuintw.coursemanagementsystem.service.UserService;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -88,8 +86,9 @@ public class UserController {
     // --- end of account management
 
     // --- user profile
+    // profile
     @GetMapping("profile")
-    public String profile(HttpSession session, Model model) {
+    public String showProfile(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -97,8 +96,10 @@ public class UserController {
         model.addAttribute("user", user);
         return "profile";
     }
+
+    // update
     @PostMapping("/profile")
-    public String profile(@ModelAttribute UserRequest userRequest,
+    public String updateProfile(@ModelAttribute UserRequest userRequest,
                           HttpSession session,
                           Model model) {
         User user = (User) session.getAttribute("user");
@@ -115,6 +116,18 @@ public class UserController {
         }
         session.setAttribute("user", userService.getUserById(user.getId()));
         return "redirect:/profile";
+    }
+
+    // delete
+    @GetMapping("/profile/delete")
+    public String deleteAccount(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        userService.deleteUserById(user.getId());
+        session.invalidate();
+        return "redirect:/login";
     }
     // --- end of user profile
 }
