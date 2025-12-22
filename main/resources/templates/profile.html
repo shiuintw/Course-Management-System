@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h2>Profile</h2>
+
+<!--go back to home-->
+<a th:href="@{/home}">Home</a>
+
+<!--error-->
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}"></p>
+</div>
+
+<!--profile-->
+<form th:action="@{/profile}" method="post">
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.id}"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td th:text="${user.name}"></td>
+            <td>
+                <label>
+                    <input type="text" name="name" th:value="${user.name}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Department</td>
+            <td th:text="${user.departmentId}"></td>
+            <td>
+                <label>
+                    <input type="text" name="departmentId" th:value="${user.departmentId}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>**********</td>
+            <td>
+                <label>
+                    <input type="password" name="password">
+                </label>
+            </td>
+        </tr>
+    </table>
+
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>

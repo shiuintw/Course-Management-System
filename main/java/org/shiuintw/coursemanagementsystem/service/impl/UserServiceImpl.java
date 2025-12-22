@@ -77,4 +77,18 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong password");
         }
     }
+
+    @Override
+    public void updateUser(UserRequest userUpdateRequest) {
+        if (userUpdateRequest.getId() == null ||
+            userUpdateRequest.getId().isEmpty() ||
+            userUpdateRequest.getPassword() == null ||
+            userUpdateRequest.getPassword().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id or password cannot be empty");
+        }
+        // MD5 encrypt(hash)
+        String hashedPassword = DigestUtils.md5DigestAsHex(userUpdateRequest.getPassword().getBytes());
+        userUpdateRequest.setPassword(hashedPassword);
+        userDao.updateUser(userUpdateRequest);
+    }
 }

@@ -1,6 +1,7 @@
 package org.shiuintw.coursemanagementsystem.controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
 import org.shiuintw.coursemanagementsystem.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -21,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    // --- account management
     // register
     @GetMapping("/register")
     public String showRegisterPage(HttpSession session,
@@ -82,4 +85,36 @@ public class UserController {
         session.invalidate();
         return "redirect:/login";
     }
+    // --- end of account management
+
+    // --- user profile
+    @GetMapping("profile")
+    public String profile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", user);
+        return "profile";
+    }
+    @PostMapping("/profile")
+    public String profile(@ModelAttribute UserRequest userRequest,
+                          HttpSession session,
+                          Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        userRequest.setId(user.getId());
+        try {
+            userService.updateUser(userRequest);
+        } catch(ResponseStatusException e) {
+            model.addAttribute("error", e.getReason());
+            model.addAttribute("user", user);
+            return "profile";
+        }
+        session.setAttribute("user", userService.getUserById(user.getId()));
+        return "redirect:/profile";
+    }
+    // --- end of user profile
 }
