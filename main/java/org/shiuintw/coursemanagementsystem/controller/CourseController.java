@@ -149,5 +149,35 @@ public class CourseController {
     // --- end of taking course
     // todo rud my course
     // --- my course
+    @GetMapping("/myCourse")
+    public String myCourse(HttpSession session,
+                           Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        List<Take> takeList = takeService.getTakesByUserId(user.getId());
+        model.addAttribute("takeList", takeList);
+
+        return "myCourse";
+    }
+
+    @PostMapping("/myCourse/update/{courseId}")
+    public String updateTake(@PathVariable String courseId,
+                             @RequestParam String time,
+                             @RequestParam String score,
+                             HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        Take take = new Take();
+        take.setCourseId(courseId);
+        take.setTime(time);
+        take.setScore(score);
+        take.setUserId(user.getId());
+
+        takeService.updateTake(take);
+        return "redirect:/course/myCourse";
+    }
     // --- end of my course
 }

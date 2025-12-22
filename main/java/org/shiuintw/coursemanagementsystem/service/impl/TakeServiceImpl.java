@@ -6,6 +6,8 @@ import org.shiuintw.coursemanagementsystem.service.TakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class TakeServiceImpl implements TakeService {
     private final TakeDao takeDao;
@@ -36,5 +38,15 @@ public class TakeServiceImpl implements TakeService {
     @Override
     public void deleteTakeById(String userId, String courseId) {
         takeDao.deleteTakeById(userId, courseId);
+    }
+
+    @Override
+    public List<Take> getTakesByUserId(String userId) {
+        return takeDao.getTakesByUserId(userId);
+    }
+
+    @Override
+    public void deleteTakesByUserId(String userId) {
+        takeDao.deleteTakesByUserId(userId);
     }
 }

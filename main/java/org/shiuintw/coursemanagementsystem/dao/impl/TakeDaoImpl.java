@@ -60,4 +60,20 @@ public class TakeDaoImpl implements TakeDao {
         map.put("courseId", courseId);
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map));
     }
+
+    @Override
+    public List<Take> getTakesByUserId(String userId) {
+        String sql = "SELECT * FROM take WHERE user_id = :userId";
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        return namedParameterJdbcTemplate.query(sql, map, new TakeRowMapper());
+    }
+
+    @Override
+    public void deleteTakesByUserId(String userId) {
+        String sql = "DELETE FROM take WHERE user_id = :userId";
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map));
+    }
 }

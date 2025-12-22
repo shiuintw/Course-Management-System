@@ -2,8 +2,8 @@ package org.shiuintw.coursemanagementsystem.dao.impl;
 
 import org.shiuintw.coursemanagementsystem.dao.UserDao;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
-import org.shiuintw.coursemanagementsystem.model.User;
 import org.shiuintw.coursemanagementsystem.mapper.UserRowMapper;
+import org.shiuintw.coursemanagementsystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

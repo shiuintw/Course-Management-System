@@ -3,6 +3,7 @@ package org.shiuintw.coursemanagementsystem.controller;
 import jakarta.servlet.http.HttpSession;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
+import org.shiuintw.coursemanagementsystem.service.TakeService;
 import org.shiuintw.coursemanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,12 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final TakeService takeService;
 
     @Autowired
-    public UserController(final UserService userService) {
+    public UserController(final UserService userService, TakeService takeService) {
         this.userService = userService;
+        this.takeService = takeService;
     }
 
     // --- account management
@@ -126,6 +129,7 @@ public class UserController {
             return "redirect:/login";
         }
         userService.deleteUserById(user.getId());
+        takeService.deleteTakesByUserId(user.getId());
         session.invalidate();
         return "redirect:/login";
     }

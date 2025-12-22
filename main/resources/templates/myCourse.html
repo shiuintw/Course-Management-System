@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Course Search</title>
+<!--    <link rel="stylesheet" th:href="@{/css/course.css}">-->
+</head>
+<!--<script th:src="@{/js/course.js}"></script>-->
+
+<body>
+
+<h1>Search Course</h1>
+
+<!--go back to home-->
+<a th:href="@{/home}">Home</a>
+
+<!--search result-->
+<hr>
+<h2>My Course</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Score</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="take : ${takeList}">
+        <form th:action="@{/course/myCourse/update/{courseId}(courseId=${take.courseId})}" method="post">
+            <td th:text="${take.courseId}"></td>
+            <td><input type="text" name="time" th:value="${take.time}" /></td>
+            <td><input type="text" name="score" th:value="${take.score}" /></td>
+            <td><button type="submit">Save</button></td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
