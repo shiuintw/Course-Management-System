@@ -71,6 +71,7 @@ public class CourseController {
     );
     // --- end of util
 
+    // --- search
     @GetMapping("/search")
     public String searchCourse(
             // filter
@@ -121,7 +122,9 @@ public class CourseController {
 
         return "course";
     }
+    // --- end of search
 
+    // --- taking course
     @PostMapping("/take/{courseId}")
     public ResponseEntity<Take> takeCourse(@PathVariable String courseId,
                                            HttpSession session) {
@@ -143,4 +146,8 @@ public class CourseController {
         boolean taken = takeService.getTakeById(user.getId(), courseId) != null;
         return Collections.singletonMap("taken", taken);
     }
+    // --- end of taking course
+    // todo rud my course
+    // --- my course
+    // --- end of my course
 }

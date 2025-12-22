@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Course Search</title>
     <link rel="stylesheet" th:href="@{/css/course.css}">
 </head>
 <script th:src="@{/js/course.js}"></script>
+
 <body>
+
 <h1>Search Course</h1>
 
+<!--go back to home-->
+<a th:href="@{/home}">Home</a>
+
+<!--search filter-->
 <form th:action="@{/course/search}" method="get">
     <div>
         <label>Course ID:</label>
@@ -102,8 +109,8 @@
 
 </form>
 
+<!--search result-->
 <hr>
-
 <h2>Search Result</h2>
 <table border="1">
     <thead>
