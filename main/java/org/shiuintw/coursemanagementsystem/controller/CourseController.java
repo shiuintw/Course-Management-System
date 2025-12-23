@@ -1,11 +1,9 @@
 package org.shiuintw.coursemanagementsystem.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.shiuintw.coursemanagementsystem.model.Course;
-import org.shiuintw.coursemanagementsystem.model.MinimumCredit;
-import org.shiuintw.coursemanagementsystem.model.Take;
-import org.shiuintw.coursemanagementsystem.model.User;
+import org.shiuintw.coursemanagementsystem.model.*;
 import org.shiuintw.coursemanagementsystem.service.CourseService;
+import org.shiuintw.coursemanagementsystem.service.InstructorService;
 import org.shiuintw.coursemanagementsystem.service.MinimumCreditService;
 import org.shiuintw.coursemanagementsystem.service.TakeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +34,17 @@ public class CourseController {
     private final CourseService courseService;
     private final TakeService takeService;
     private final MinimumCreditService minimumCreditService;
+    private final InstructorService instructorService;
 
     @Autowired
     public CourseController(CourseService courseService,
                             TakeService takeService,
-                            MinimumCreditService minimumCreditService) {
+                            MinimumCreditService minimumCreditService,
+                            InstructorService instructorService) {
         this.courseService = courseService;
         this.takeService = takeService;
         this.minimumCreditService = minimumCreditService;
+        this.instructorService = instructorService;
     }
 
     // --- util
@@ -128,6 +129,8 @@ public class CourseController {
         model.addAttribute("timeList", timeList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("orderChoices", orderChoices);
+        List<Instructor> instructorList = instructorService.getAllInstructors();
+        model.addAttribute("instructorList", instructorList);
 
         return "course";
     }
@@ -191,15 +194,12 @@ public class CourseController {
         model.addAttribute("timeList", timeList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("orderChoices", orderChoices);
+        List<Instructor> instructorList = instructorService.getAllInstructors();
+        model.addAttribute("instructorList", instructorList);
 
         return "course";
     }
     // --- end of customized search
-
-    // --- recommending courses
-    // todo call searchCourse with param
-    // todo return param with path
-    // --- end of recommending courses
 
     // --- taking course
     @PostMapping("/take/{courseId}")

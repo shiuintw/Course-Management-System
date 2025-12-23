@@ -105,8 +105,16 @@
     <div>
         <label>Course Instructor:</label>
         <label>
-            <input type="text" name="instructorIdStr" th:value="${param.instructorIdStr}">
+            <input type="text"
+                   name="instructorIdStr"
+                   th:value="${param.instructorIdStr}"
+                   list="instructorList"/>
         </label>
+        <datalist id="instructorList">
+            <option th:each="ins : ${instructorList}"
+                    th:value="${ins.id}">
+            </option>
+        </datalist>
     </div>
 
     <div>

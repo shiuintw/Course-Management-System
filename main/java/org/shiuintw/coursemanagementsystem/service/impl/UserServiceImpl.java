@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     private void checkId(String id) {
-        if (!id.matches("\\d{9}")) {
+        if (id.length() > 9) {
             log.warn("wrong id format: {}", id);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong id format");
         }

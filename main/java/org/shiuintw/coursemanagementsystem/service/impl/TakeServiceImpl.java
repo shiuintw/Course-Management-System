@@ -93,6 +93,7 @@ public class TakeServiceImpl implements TakeService {
         for (Take take : takeList) {
             EmbedCourse embedCourse = new EmbedCourse(courseDao.getCourseById(take.getCourseId()));
             for (String category : embedCourse.course.getCategory()) {
+                if (category != null && !category.isEmpty())
                 map.get(category).add(embedCourse);
             }
         }
