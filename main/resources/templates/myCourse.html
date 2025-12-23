@@ -1,117 +1,221 @@
 <!DOCTYPE html>
-<html lang="" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Course Search</title>
+    <title>My Course</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px 0;
+            background-color: #f5f7fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            margin-bottom: 15px;
+        }
+
+        .top-link {
+            margin-bottom: 20px;
+        }
+
+        .top-link a {
+            text-decoration: none;
+            color: #4a90e2;
+            font-size: 14px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f0f2f5;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 13px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background-color: #4a90e2;
+            color: #ffffff;
+        }
+
+        .save-btn:hover {
+            background-color: #357ab8;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #ffffff;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .credit-table td:first-child {
+            text-align: left;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Search Course</h1>
+<div class="page">
 
-<!--go back to home-->
-<a th:href="@{/home}">Home</a>
+    <h1>My Course</h1>
 
-<!--Credit Calculate-->
-<hr>
-<h2>My Credit</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Course Category</th>
-        <th>Credit</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>basic_science</td>
-        <td th:text="${userCredit.basicScience} + '/' + ${minimumCredit.basicScience}"></td>
-    </tr>
-    <tr>
-        <td>compulsory_course</td>
-        <td th:text="${userCredit.compulsoryCourse} + '/' + ${minimumCredit.compulsoryCourse}"></td>
-    </tr>
-    <tr>
-        <td>elective_program_course</td>
-        <td th:text="${userCredit.electiveProgramCourse} + '/' + ${minimumCredit.electiveProgramCourse}"></td>
-    </tr>
-    <tr>
-        <td>elective_professional_course</td>
-        <td th:text="${userCredit.electiveProfessionalCourse} + '/' + ${minimumCredit.electiveProfessionalCourse}"></td>
-    </tr>
-    <tr>
-        <td>free_elective_course</td>
-        <td th:text="${userCredit.freeElectiveCourse} + '/' + ${minimumCredit.freeElectiveCourse}"></td>
-    </tr>
-    <tr>
-        <td>cross_disciplinary_program</td>
-        <td th:text="${userCredit.crossDisciplinaryProgram} + '/' + ${minimumCredit.crossDisciplinaryProgram}"></td>
-    </tr>
-    <tr>
-        <td>school_basic_core_curriculum_course</td>
-        <td th:text="${userCredit.schoolBasicCoreCurriculumCourse} + '/' + ${minimumCredit.schoolBasicCoreCurriculumCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_domain_core_curriculum_course</td>
-        <td th:text="${userCredit.schoolDomainCoreCurriculumCourse} + '/' + ${minimumCredit.schoolDomainCoreCurriculumCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_language_course</td>
-        <td th:text="${userCredit.schoolLanguageCourse} + '/' + ${minimumCredit.schoolLanguageCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_pe_course</td>
-        <td th:text="${userCredit.schoolPeCourse} + '/' + ${minimumCredit.schoolPeCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_service_learning_course</td>
-        <td th:text="${userCredit.schoolServiceLearningCourse} + '/' + ${minimumCredit.schoolServiceLearningCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_student_academic_research_ethics_education_course</td>
-        <td th:text="${userCredit.schoolStudentAcademicResearchEthicsEducationCourse} + '/' + ${minimumCredit.schoolStudentAcademicResearchEthicsEducationCourse}"></td>
-    </tr>
-    <tr>
-        <td>school_online_gender_equality_education_course</td>
-        <td th:text="${userCredit.schoolOnlineGenderEqualityEducationCourse} + '/' + ${minimumCredit.schoolOnlineGenderEqualityEducationCourse}"></td>
-    </tr>
-    </tbody>
-</table>
+    <div class="top-link">
+        <a th:href="@{/home}">← Back to Home</a>
+    </div>
 
-<!--course result-->
-<hr>
-<h2>My Course</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Time</th>
-        <th>Score</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="take : ${takeList}">
-        <td th:text="${take.courseId}"></td>
+    <!-- Credit -->
+    <div class="card">
+        <h2>My Credit</h2>
+        <table class="credit-table">
+            <thead>
+            <tr>
+                <th>Course Category</th>
+                <th>Credit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>basic_science</td>
+                <td th:text="${userCredit.basicScience} + '/' + ${minimumCredit.basicScience}"></td>
+            </tr>
+            <tr>
+                <td>compulsory_course</td>
+                <td th:text="${userCredit.compulsoryCourse} + '/' + ${minimumCredit.compulsoryCourse}"></td>
+            </tr>
+            <tr>
+                <td>elective_program_course</td>
+                <td th:text="${userCredit.electiveProgramCourse} + '/' + ${minimumCredit.electiveProgramCourse}"></td>
+            </tr>
+            <tr>
+                <td>elective_professional_course</td>
+                <td th:text="${userCredit.electiveProfessionalCourse} + '/' + ${minimumCredit.electiveProfessionalCourse}"></td>
+            </tr>
+            <tr>
+                <td>free_elective_course</td>
+                <td th:text="${userCredit.freeElectiveCourse} + '/' + ${minimumCredit.freeElectiveCourse}"></td>
+            </tr>
+            <tr>
+                <td>cross_disciplinary_program</td>
+                <td th:text="${userCredit.crossDisciplinaryProgram} + '/' + ${minimumCredit.crossDisciplinaryProgram}"></td>
+            </tr>
+            <tr>
+                <td>school_basic_core_curriculum_course</td>
+                <td th:text="${userCredit.schoolBasicCoreCurriculumCourse} + '/' + ${minimumCredit.schoolBasicCoreCurriculumCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_domain_core_curriculum_course</td>
+                <td th:text="${userCredit.schoolDomainCoreCurriculumCourse} + '/' + ${minimumCredit.schoolDomainCoreCurriculumCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_language_course</td>
+                <td th:text="${userCredit.schoolLanguageCourse} + '/' + ${minimumCredit.schoolLanguageCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_pe_course</td>
+                <td th:text="${userCredit.schoolPeCourse} + '/' + ${minimumCredit.schoolPeCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_service_learning_course</td>
+                <td th:text="${userCredit.schoolServiceLearningCourse} + '/' + ${minimumCredit.schoolServiceLearningCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_student_academic_research_ethics_education_course</td>
+                <td th:text="${userCredit.schoolStudentAcademicResearchEthicsEducationCourse} + '/' + ${minimumCredit.schoolStudentAcademicResearchEthicsEducationCourse}"></td>
+            </tr>
+            <tr>
+                <td>school_online_gender_equality_education_course</td>
+                <td th:text="${userCredit.schoolOnlineGenderEqualityEducationCourse} + '/' + ${minimumCredit.schoolOnlineGenderEqualityEducationCourse}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <form th:action="@{/course/myCourse/update/{courseId}(courseId=${take.courseId})}"
-              method="post">
-            <td><input type="text" name="time" th:value="${take.time}" /></td>
-            <td><input type="text" name="score" th:value="${take.score}" /></td>
-            <td><button type="submit">Save</button></td>
-        </form>
+    <!-- My Course -->
+    <div class="card">
+        <h2>My Course</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Time</th>
+                <th>Score</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="take : ${takeList}">
+                <td th:text="${take.courseId}"></td>
 
-        <td>
-            <form th:action="@{/course/myCourse/delete/{courseId}(courseId=${take.courseId})}"
-                  method="post"
-                  onsubmit="return confirm('are you sure?');">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                <form th:action="@{/course/myCourse/update/{courseId}(courseId=${take.courseId})}"
+                      method="post">
+                    <td><input type="text" name="time" th:value="${take.time}" /></td>
+                    <td><input type="text" name="score" th:value="${take.score}" /></td>
+                    <td>
+                        <button type="submit" class="save-btn">Save</button>
+                    </td>
+                </form>
+
+                <td>
+                    <form th:action="@{/course/myCourse/delete/{courseId}(courseId=${take.courseId})}"
+                          method="post"
+                          onsubmit="return confirm('are you sure?');">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
 </body>
 </html>

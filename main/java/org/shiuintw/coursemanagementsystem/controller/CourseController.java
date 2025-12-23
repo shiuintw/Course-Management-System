@@ -2,10 +2,7 @@ package org.shiuintw.coursemanagementsystem.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.shiuintw.coursemanagementsystem.model.*;
-import org.shiuintw.coursemanagementsystem.service.CourseService;
-import org.shiuintw.coursemanagementsystem.service.InstructorService;
-import org.shiuintw.coursemanagementsystem.service.MinimumCreditService;
-import org.shiuintw.coursemanagementsystem.service.TakeService;
+import org.shiuintw.coursemanagementsystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +32,19 @@ public class CourseController {
     private final TakeService takeService;
     private final MinimumCreditService minimumCreditService;
     private final InstructorService instructorService;
+    private final BuildingService buildingService;
 
     @Autowired
     public CourseController(CourseService courseService,
                             TakeService takeService,
                             MinimumCreditService minimumCreditService,
-                            InstructorService instructorService) {
+                            InstructorService instructorService,
+                            BuildingService buildingService) {
         this.courseService = courseService;
         this.takeService = takeService;
         this.minimumCreditService = minimumCreditService;
         this.instructorService = instructorService;
+        this.buildingService = buildingService;
     }
 
     // --- util
@@ -131,6 +131,8 @@ public class CourseController {
         model.addAttribute("orderChoices", orderChoices);
         List<Instructor> instructorList = instructorService.getAllInstructors();
         model.addAttribute("instructorList", instructorList);
+        List<Building> buildingList = buildingService.getAllBuildings();
+        model.addAttribute("buildingList", buildingList);
 
         return "course";
     }
@@ -196,6 +198,8 @@ public class CourseController {
         model.addAttribute("orderChoices", orderChoices);
         List<Instructor> instructorList = instructorService.getAllInstructors();
         model.addAttribute("instructorList", instructorList);
+        List<Building> buildingList = buildingService.getAllBuildings();
+        model.addAttribute("buildingList", buildingList);
 
         return "course";
     }

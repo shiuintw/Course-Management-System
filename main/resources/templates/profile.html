@@ -1,65 +1,191 @@
 <!DOCTYPE html>
-<html lang="" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f7fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 420px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .top-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .top-link a {
+            text-decoration: none;
+            color: #4a90e2;
+            font-size: 14px;
+        }
+
+        .top-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            background-color: #fdecea;
+            color: #c0392b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        th {
+            text-align: left;
+            width: 30%;
+        }
+
+        td {
+            width: 35%;
+        }
+
+        .masked {
+            letter-spacing: 2px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4a90e2;
+            color: #ffffff;
+            font-size: 15px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .save-btn:hover {
+            background-color: #357ab8;
+        }
+
+        .delete-form {
+            text-align: center;
+        }
+
+        .delete-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #e74c3c;
+            color: #ffffff;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
 </head>
 <body>
-<h1>Profile</h1>
 
-<!--go back to home-->
-<a th:href="@{/home}">Home</a>
+<div class="container">
+    <h1>Profile</h1>
 
-<!--error-->
-<div th:if="${error}" style="color:red;">
-    <p th:text="${error}"></p>
+    <div class="top-link">
+        <a th:href="@{/home}">← Back to Home</a>
+    </div>
+
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- profile -->
+    <form th:action="@{/profile}" method="post">
+        <table>
+            <tr>
+                <th>ID</th>
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.id}"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td th:text="${user.name}"></td>
+                <td>
+                    <input type="text" name="name" th:value="${user.name}">
+                </td>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td th:text="${user.departmentId}"></td>
+                <td>
+                    <input type="text" name="departmentId" th:value="${user.departmentId}">
+                </td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td class="masked">********</td>
+                <td>
+                    <input type="password" name="password">
+                </td>
+            </tr>
+        </table>
+
+        <div class="actions">
+            <button type="submit" class="save-btn">Save</button>
+        </div>
+    </form>
+
+    <!-- delete account -->
+    <form th:action="@{/profile/delete}"
+          method="get"
+          class="delete-form"
+          onsubmit="return confirm('Are you sure?');">
+        <button type="submit" class="delete-btn">Delete Account</button>
+    </form>
 </div>
 
-<!--profile-->
-<form th:action="@{/profile}" method="post">
-    <table border="1">
-        <tr>
-            <td>ID</td>
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.id}"></td>
-        </tr>
-        <tr>
-            <td>Name</td>
-            <td th:text="${user.name}"></td>
-            <td>
-                <label>
-                    <input type="text" name="name" th:value="${user.name}">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Department</td>
-            <td th:text="${user.departmentId}"></td>
-            <td>
-                <label>
-                    <input type="text" name="departmentId" th:value="${user.departmentId}">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>**********</td>
-            <td>
-                <label>
-                    <input type="password" name="password">
-                </label>
-            </td>
-        </tr>
-    </table>
-
-    <button type="submit">Save</button>
-</form>
-
-<!--delete account-->
-<form th:action="@{/profile/delete}"
-      method="get"
-      onsubmit="return confirm('are you sure?');">
-    <button type="submit">Delete Account</button>
-</form>
 </body>
 </html>

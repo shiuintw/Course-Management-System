@@ -1,187 +1,305 @@
 <!DOCTYPE html>
-<html lang="" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Course Search</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px 0;
+            background-color: #f5f7fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            margin-bottom: 15px;
+        }
+
+        .top-link {
+            margin-bottom: 20px;
+        }
+
+        .top-link a {
+            text-decoration: none;
+            color: #4a90e2;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 220px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f0f2f5;
+        }
+
+        .checkbox-table td {
+            padding: 4px;
+            border: none;
+            text-align: left;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4a90e2;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+
+        .secondary-btn {
+            background-color: #6c757d;
+        }
+
+        .secondary-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .status {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+
+    <script th:src="@{/js/course.js}"></script>
 </head>
-<script th:src="@{/js/course.js}"></script>
 
 <body>
 
-<h1>Search Course</h1>
+<div class="page">
 
-<!--go back to home-->
-<a th:href="@{/home}">Home</a>
+    <h1>Course Search</h1>
 
-<!--customized search-->
-<h2>Customized Search</h2>
-<form th:action="@{/course/customizedSearch}"
-      method="get">
-    <button type="submit">Customized Search</button>
-</form>
-
-<!--search filter-->
-<h2>Search Filter</h2>
-<form th:action="@{/course/search}" method="get">
-    <div>
-        <label>Order:</label>
-        <label>
-            <input type="text"
-                   name="orderBy"
-                   th:value="${param.orderBy}"
-                   list="orderChoices"/>
-        </label>
-        <datalist id="orderChoices">
-            <option th:each="o : ${orderChoices}"
-                    th:value="${o}">
-            </option>
-        </datalist>
+    <div class="top-link">
+        <a th:href="@{/home}">← Back to Home</a>
     </div>
 
-    <div>
-        <label>Course Name:</label>
-        <label>
-            <input type="text" name="name" th:value="${param.name}">
-        </label>
+    <!-- Customized Search -->
+    <div class="card">
+        <h2>Customized Search</h2>
+        <form th:action="@{/course/customizedSearch}" method="get">
+            <button type="submit" class="secondary-btn">Customized Search</button>
+        </form>
     </div>
 
-    <div>
-        <label>Course Credit:</label>
-        <label>
-            <input type="number" name="credit" th:value="${param.credit}">
-        </label>
+    <!-- Search Filter -->
+    <div class="card">
+        <h2>Search Filter</h2>
+
+        <form th:action="@{/course/search}" method="get">
+
+            <div class="filter-grid">
+
+                <div class="form-group">
+                    <label>Order</label><br>
+                    <input type="text"
+                           name="orderBy"
+                           th:value="${param.orderBy}"
+                           list="orderChoices"/>
+                    <datalist id="orderChoices">
+                        <option th:each="o : ${orderChoices}" th:value="${o}"></option>
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label>Course Name</label><br>
+                    <input type="text" name="name" th:value="${param.name}">
+                </div>
+
+                <div class="form-group">
+                    <label>Credit</label><br>
+                    <input type="number" name="credit" th:value="${param.credit}">
+                </div>
+
+                <div class="form-group">
+                    <label>Hours</label><br>
+                    <input type="number" name="hours" th:value="${param.hours}">
+                </div>
+
+                <div class="form-group">
+                    <label>Max Students</label><br>
+                    <input type="number" name="maxStudentNumber" th:value="${param.maxStudentNumber}">
+                </div>
+
+                <div class="form-group">
+                    <label>Building</label><br>
+                    <input type="text"
+                           name="buildingId"
+                           th:value="${param.buildingId}"
+                           list="buildingList"/>
+                    <datalist id="buildingList">
+                        <option th:each="b : ${buildingList}" th:value="${b.id}"></option>
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label>Classroom</label><br>
+                    <input type="text" name="classroomStr" th:value="${param.classroomStr}">
+                </div>
+
+                <div class="form-group">
+                    <label>Instructor</label><br>
+                    <input type="text"
+                           name="instructorIdStr"
+                           th:value="${param.instructorIdStr}"
+                           list="instructorList"/>
+                    <datalist id="instructorList">
+                        <option th:each="ins : ${instructorList}" th:value="${ins.id}"></option>
+                    </datalist>
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- Time -->
+            <div class="form-group">
+                <label>Course Time</label>
+                <table class="checkbox-table">
+                    <tr th:each="rowStat : ${#numbers.sequence(0,6)}">
+                        <td th:each="colStat : ${#numbers.sequence(0,15)}">
+                            <div th:with="index=${rowStat*16 + colStat}"
+                                 th:if="${index < timeList.size()}">
+                                <label>
+                                    <input type="checkbox" name="time"
+                                           th:value="${timeList[index]}"
+                                           th:checked="${param.time != null and param.time.contains(timeList[index])}">
+                                    <span th:text="${timeList[index]}"></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label>Category</label>
+                <table class="checkbox-table">
+                    <tr th:each="t : ${categoryList}">
+                        <td>
+                            <label>
+                                <input type="checkbox" name="category"
+                                       th:value="${t}"
+                                       th:checked="${param.category != null and param.category.contains(t)}">
+                                <span th:text="${t}"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Search</button>
+            </div>
+
+        </form>
     </div>
 
-    <div>
-        <label>Course Hours:</label>
-        <label>
-            <input type="number" name="hours" th:value="${param.hours}">
-        </label>
-    </div>
+    <!-- Search Result -->
+    <div class="card">
+        <h2>Search Result</h2>
 
-    <div>
-        <label>Course Max Student Number:</label>
-        <label>
-            <input type="number" name="maxStudentNumber" th:value="${param.maxStudentNumber}">
-        </label>
-    </div>
-    <div>
-        <label>Course Time:</label><br>
-
-        <table border="1">
-            <tbody>
-            <tr th:each="rowStat : ${#numbers.sequence(0,6)}">
-                <td th:each="colStat : ${#numbers.sequence(0,15)}">
-                    <div th:with="index=${rowStat*16 + colStat}"
-                         th:if="${index < timeList.size()}">
-                        <label>
-                            <input type="checkbox" name="time"
-                                   th:value="${timeList[index]}"
-                                   th:checked="${param.time != null and param.time.contains(timeList[index])}">
-                            <span th:text="${timeList[index]}"></span>
-                        </label>
-                    </div>
-                </td>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Credit</th>
+                <th>Hours</th>
+                <th>Max</th>
+                <th>Time</th>
+                <th>Building</th>
+                <th>Classroom</th>
+                <th>Instructor</th>
+                <th>Category</th>
+                <th>Status</th>
             </tr>
-            </tbody>
-        </table>
-    </div>
-<!--    -->
-    <div>
-        <label>Course Building:</label>
-        <label>
-            <input type="text" name="buildingId" th:value="${param.buildingId}">
-        </label>
-    </div>
-
-    <div>
-        <label>Course Classroom:</label>
-        <label>
-            <input type="text" name="classroomStr" th:value="${param.classroomStr}">
-        </label>
-    </div>
-
-    <div>
-        <label>Course Instructor:</label>
-        <label>
-            <input type="text"
-                   name="instructorIdStr"
-                   th:value="${param.instructorIdStr}"
-                   list="instructorList"/>
-        </label>
-        <datalist id="instructorList">
-            <option th:each="ins : ${instructorList}"
-                    th:value="${ins.id}">
-            </option>
-        </datalist>
-    </div>
-
-    <div>
-        <label>Course Category:</label><br>
-
-        <table border="1">
-            <tbody>
-            <tr th:each="t : ${categoryList}">
+            </thead>
+            <tbody id="course">
+            <tr th:each="course : ${courseList}" th:data-course-id="${course.id}">
+                <td th:text="${course.id}"></td>
+                <td th:text="${course.name}"></td>
+                <td th:text="${course.credit}"></td>
+                <td th:text="${course.hours}"></td>
+                <td th:text="${course.maxStudentNumber}"></td>
+                <td th:text="${course.time}"></td>
+                <td th:text="${course.buildingId}"></td>
+                <td th:text="${course.classroom}"></td>
+                <td th:text="${course.instructorId}"></td>
+                <td th:text="${course.category}"></td>
                 <td>
-                    <label>
-                        <input type="checkbox" name="category"
-                               th:value="${t}"
-                               th:checked="${param.category != null and param.category.contains(t)}">
-                        <span th:text="${t}"></span>
-                    </label>
+                    <span class="status"
+                          th:attr="data-course-id=${course.id}">
+                        loading...
+                    </span>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div>
-        <button type="submit">Search</button>
-    </div>
-
-</form>
-
-<!--search result-->
-<hr>
-<h2>Search Result</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Credit</th>
-        <th>Hours</th>
-        <th>Max Student Number</th>
-        <th>Time</th>
-        <th>Building</th>
-        <th>Classroom</th>
-        <th>Instructor</th>
-        <th>Category</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody id="course">
-    <tr th:each="course : ${courseList}" th:data-course-id="${course.id}">
-        <td th:text="${course.id}"></td>
-        <td th:text="${course.name}"></td>
-        <td th:text="${course.credit}"></td>
-        <td th:text="${course.hours}"></td>
-        <td th:text="${course.maxStudentNumber}"></td>
-        <td th:text="${course.time}"></td>
-        <td th:text="${course.buildingId}"></td>
-        <td th:text="${course.classroom}"></td>
-        <td th:text="${course.instructorId}"></td>
-        <td th:text="${course.category}"></td>
-        <td>
-            <span class="status"
-                  th:attr="data-course-id=${course.id}">
-                loading...
-            </span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+</div>
 
 </body>
 </html>
