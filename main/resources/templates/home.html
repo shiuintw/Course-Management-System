@@ -1,19 +1,77 @@
 <!DOCTYPE html>
-<html lang="" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f7fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .links a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #4a90e2;
+            transition: background-color 0.2s;
+        }
+
+        .links a:hover {
+            background-color: #357ab8;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+        }
+
+        .logout:hover {
+            background-color: #c0392b;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome</h1>
 
-<p>
-    Hello, <span th:text="${user.id}"></span>
-</p>
+<div class="container">
+    <h1>Welcome</h1>
 
-<a th:href="@{/logout}">Logout</a>
-<a th:href="@{/profile}">Profile</a>
-<a th:href="@{/course/search}">Course</a>
-<a th:href="@{/course/myCourse}">My Course</a>
+    <p>
+        Hello, <strong th:text="${user.id}"></strong>
+    </p>
+
+    <div class="links">
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/course/search}">Course</a>
+        <a th:href="@{/course/myCourse}">My Course</a>
+        <a th:href="@{/logout}" class="logout">Logout</a>
+    </div>
+</div>
+
 </body>
 </html>
