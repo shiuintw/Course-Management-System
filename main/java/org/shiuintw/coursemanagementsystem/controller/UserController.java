@@ -30,6 +30,12 @@ public class UserController {
         this.takeService = takeService;
         this.departmentService = departmentService;
     }
+    // --- redirect
+    @GetMapping("/")
+    public String index() {
+        return "redirect:home";
+    }
+    // ---
 
     // --- account management
     // register
