@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Course Search</title>
-<!--    <link rel="stylesheet" th:href="@{/css/course.css}">-->
 </head>
-<!--<script th:src="@{/js/course.js}"></script>-->
 
 <body>
 
@@ -15,10 +13,75 @@
 <!--go back to home-->
 <a th:href="@{/home}">Home</a>
 
+<!--Credit Calculate-->
+<hr>
+<h2>My Credit</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Course Category</th>
+        <th>Credit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>basic_science</td>
+        <td th:text="${userCredit.basicScience} + '/' + ${minimumCredit.basicScience}"></td>
+    </tr>
+    <tr>
+        <td>compulsory_course</td>
+        <td th:text="${userCredit.compulsoryCourse} + '/' + ${minimumCredit.compulsoryCourse}"></td>
+    </tr>
+    <tr>
+        <td>elective_program_course</td>
+        <td th:text="${userCredit.electiveProgramCourse} + '/' + ${minimumCredit.electiveProgramCourse}"></td>
+    </tr>
+    <tr>
+        <td>elective_professional_course</td>
+        <td th:text="${userCredit.electiveProfessionalCourse} + '/' + ${minimumCredit.electiveProfessionalCourse}"></td>
+    </tr>
+    <tr>
+        <td>free_elective_course</td>
+        <td th:text="${userCredit.freeElectiveCourse} + '/' + ${minimumCredit.freeElectiveCourse}"></td>
+    </tr>
+    <tr>
+        <td>cross_disciplinary_program</td>
+        <td th:text="${userCredit.crossDisciplinaryProgram} + '/' + ${minimumCredit.crossDisciplinaryProgram}"></td>
+    </tr>
+    <tr>
+        <td>school_basic_core_curriculum_course</td>
+        <td th:text="${userCredit.schoolBasicCoreCurriculumCourse} + '/' + ${minimumCredit.schoolBasicCoreCurriculumCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_domain_core_curriculum_course</td>
+        <td th:text="${userCredit.schoolDomainCoreCurriculumCourse} + '/' + ${minimumCredit.schoolDomainCoreCurriculumCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_language_course</td>
+        <td th:text="${userCredit.schoolLanguageCourse} + '/' + ${minimumCredit.schoolLanguageCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_pe_course</td>
+        <td th:text="${userCredit.schoolPeCourse} + '/' + ${minimumCredit.schoolPeCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_service_learning_course</td>
+        <td th:text="${userCredit.schoolServiceLearningCourse} + '/' + ${minimumCredit.schoolServiceLearningCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_student_academic_research_ethics_education_course</td>
+        <td th:text="${userCredit.schoolStudentAcademicResearchEthicsEducationCourse} + '/' + ${minimumCredit.schoolStudentAcademicResearchEthicsEducationCourse}"></td>
+    </tr>
+    <tr>
+        <td>school_online_gender_equality_education_course</td>
+        <td th:text="${userCredit.schoolOnlineGenderEqualityEducationCourse} + '/' + ${minimumCredit.schoolOnlineGenderEqualityEducationCourse}"></td>
+    </tr>
+    </tbody>
+</table>
+
 <!--search result-->
 <hr>
 <h2>My Course</h2>
-
 <table border="1">
     <thead>
     <tr>
@@ -50,6 +113,5 @@
     </tr>
     </tbody>
 </table>
-
 </body>
 </html>

@@ -1,11 +1,12 @@
 package org.shiuintw.coursemanagementsystem.controller;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 import org.shiuintw.coursemanagementsystem.model.Course;
+import org.shiuintw.coursemanagementsystem.model.MinimumCredit;
 import org.shiuintw.coursemanagementsystem.model.Take;
 import org.shiuintw.coursemanagementsystem.model.User;
 import org.shiuintw.coursemanagementsystem.service.CourseService;
+import org.shiuintw.coursemanagementsystem.service.MinimumCreditService;
 import org.shiuintw.coursemanagementsystem.service.TakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,15 @@ import java.util.stream.Collectors;
 public class CourseController {
     private final CourseService courseService;
     private final TakeService takeService;
+    private final MinimumCreditService minimumCreditService;
 
     @Autowired
-    public CourseController(CourseService courseService, TakeService takeService) {
+    public CourseController(CourseService courseService,
+                            TakeService takeService,
+                            MinimumCreditService minimumCreditService) {
         this.courseService = courseService;
         this.takeService = takeService;
+        this.minimumCreditService = minimumCreditService;
     }
 
     // --- util
@@ -124,6 +129,11 @@ public class CourseController {
     }
     // --- end of search
 
+    // --- recommending courses
+    // todo call searchCourse with param
+    // todo return param with path
+    // --- end of recommending courses
+
     // --- taking course
     @PostMapping("/take/{courseId}")
     public ResponseEntity<Take> takeCourse(@PathVariable String courseId,
@@ -156,8 +166,15 @@ public class CourseController {
         if (user == null) {
             return "redirect:/login";
         }
+        // take list
         List<Take> takeList = takeService.getTakesByUserId(user.getId());
         model.addAttribute("takeList", takeList);
+
+        // credit calculation
+        MinimumCredit minimumCredit = minimumCreditService.getMinimumCreditById(user.getDepartmentId());
+        MinimumCredit userCredit = takeService.getCredit(user.getId(), minimumCredit);
+        model.addAttribute("minimumCredit", minimumCredit);
+        model.addAttribute("userCredit", userCredit);
 
         return "myCourse";
     }
