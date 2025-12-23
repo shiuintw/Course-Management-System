@@ -1,5 +1,0 @@
-.time-grid {
-    display: grid;
-    grid-template-columns: repeat(16, auto);
-    gap: 6px 12px;
-}

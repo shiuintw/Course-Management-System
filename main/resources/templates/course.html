@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Course Search</title>
-    <link rel="stylesheet" th:href="@{/css/course.css}">
 </head>
 <script th:src="@{/js/course.js}"></script>
 
@@ -17,6 +16,10 @@
 
 <!--search filter-->
 <h2>Search Filter</h2>
+<form th:action="@{/course/customizedSearch}"
+      method="post">
+    <button type="submit">Customized Search</button>
+</form>
 <form th:action="@{/course/search}" method="get">
     <div>
         <label>Course ID:</label>
@@ -52,22 +55,28 @@
             <input type="number" name="maxStudentNumber" th:value="${param.maxStudentNumber}">
         </label>
     </div>
-
     <div>
         <label>Course Time:</label><br>
 
-        <div class="time-grid">
-            <div th:each="t : ${timeList}">
-                <label>
-                    <input type="checkbox" name="time"
-                           th:value="${t}"
-                           th:checked="${param.time != null and param.time.contains(t)}">
-                    <span th:text="${t}"></span>
-                </label>
-            </div>
-        </div>
+        <table border="1">
+            <tbody>
+            <tr th:each="rowStat : ${#numbers.sequence(0,6)}">
+                <td th:each="colStat : ${#numbers.sequence(0,15)}">
+                    <div th:with="index=${rowStat*16 + colStat}"
+                         th:if="${index < timeList.size()}">
+                        <label>
+                            <input type="checkbox" name="time"
+                                   th:value="${timeList[index]}"
+                                   th:checked="${param.time != null and param.time.contains(timeList[index])}">
+                            <span th:text="${timeList[index]}"></span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
+<!--    -->
     <div>
         <label>Course Building:</label>
         <label>
@@ -92,16 +101,20 @@
     <div>
         <label>Course Category:</label><br>
 
-        <div class="category-grid">
-            <div th:each="t : ${categoryList}">
-                <label>
-                    <input type="checkbox" name="category"
-                           th:value="${t}"
-                           th:checked="${param.category != null and param.category.contains(t)}">
-                    <span th:text="${t}"></span>
-                </label>
-            </div>
-        </div>
+        <table border="1">
+            <tbody>
+            <tr th:each="t : ${categoryList}">
+                <td>
+                    <label>
+                        <input type="checkbox" name="category"
+                               th:value="${t}"
+                               th:checked="${param.category != null and param.category.contains(t)}">
+                        <span th:text="${t}"></span>
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div>
