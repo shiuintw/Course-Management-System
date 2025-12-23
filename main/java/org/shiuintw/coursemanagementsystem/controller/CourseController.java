@@ -147,7 +147,7 @@ public class CourseController {
         return Collections.singletonMap("taken", taken);
     }
     // --- end of taking course
-    // todo rud my course
+
     // --- my course
     @GetMapping("/myCourse")
     public String myCourse(HttpSession session,
@@ -177,6 +177,16 @@ public class CourseController {
         take.setUserId(user.getId());
 
         takeService.updateTake(take);
+        return "redirect:/course/myCourse";
+    }
+
+    @PostMapping("/myCourse/delete/{courseId}")
+    public String deleteTake(@PathVariable String courseId,
+                             HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        takeService.deleteTakeById(user.getId(), courseId);
         return "redirect:/course/myCourse";
     }
     // --- end of my course
