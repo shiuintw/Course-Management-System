@@ -6,10 +6,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CourseResultSetExtractor implements ResultSetExtractor<List<Course>> {
     @Override
@@ -42,6 +39,13 @@ public class CourseResultSetExtractor implements ResultSetExtractor<List<Course>
                 course.getCategory().add(rs.getString("category"));
                 courseMap.put(id, course);
             }
+        }
+
+        for (Course c : courseMap.values()) {
+            c.setTime(new ArrayList<>(new HashSet<>(c.getTime())));
+            c.setClassroom(new ArrayList<>(new HashSet<>(c.getClassroom())));
+            c.setInstructorId(new ArrayList<>(new HashSet<>(c.getInstructorId())));
+            c.setCategory(new ArrayList<>(new HashSet<>(c.getCategory())));
         }
         return new ArrayList<>(courseMap.values());
     }

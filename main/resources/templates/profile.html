@@ -56,6 +56,10 @@
 </form>
 
 <!--delete account-->
-<a th:href="@{/profile/delete}">Delete Account</a>
+<form th:action="@{/profile/delete}"
+      method="get"
+      onsubmit="return confirm('are you sure?');">
+    <button type="submit">Delete Account</button>
+</form>
 </body>
 </html>
