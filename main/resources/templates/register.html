@@ -28,9 +28,15 @@
 
     <div>
         <label>Department ID:</label>
-        <label>
-            <input type="text" th:field="*{departmentId}" />
-        </label>
+        <input type="text"
+               th:field="*{departmentId}"
+               list="departmentList"/>
+
+        <datalist id="departmentList">
+            <option th:each="d : ${departmentIdList}"
+                    th:value="${d.id}">
+            </option>
+        </datalist>
     </div>
 
     <div>

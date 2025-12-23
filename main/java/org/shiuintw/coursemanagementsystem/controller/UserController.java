@@ -3,6 +3,7 @@ package org.shiuintw.coursemanagementsystem.controller;
 import jakarta.servlet.http.HttpSession;
 import org.shiuintw.coursemanagementsystem.dto.UserRequest;
 import org.shiuintw.coursemanagementsystem.model.User;
+import org.shiuintw.coursemanagementsystem.service.DepartmentService;
 import org.shiuintw.coursemanagementsystem.service.TakeService;
 import org.shiuintw.coursemanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Controller
 public class UserController {
     private final UserService userService;
     private final TakeService takeService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public UserController(final UserService userService, TakeService takeService) {
+    public UserController(final UserService userService,
+                          TakeService takeService,
+                          DepartmentService departmentService) {
         this.userService = userService;
         this.takeService = takeService;
+        this.departmentService = departmentService;
     }
 
     // --- account management
@@ -31,6 +38,8 @@ public class UserController {
                                    Model model) {
         User user = (User) session.getAttribute("user");
         if (user != null) return "redirect:/home";
+
+        model.addAttribute("departmentIdList", departmentService.getAllDepartments());
         model.addAttribute("user", new UserRequest());
         return "register";
     }
