@@ -71,6 +71,14 @@ public class CourseController {
             "school_student_academic_research_ethics_education_course",
             "school_online_gender_equality_education_course"
     );
+    private static final List<String> orderChoices = List.of(
+            "id",
+            "name",
+            "credit",
+            "hours",
+            "max_student_number",
+            "building_id"
+    );
     // --- end of util
 
     // --- search
@@ -89,7 +97,7 @@ public class CourseController {
             @RequestParam(required = false) List<String> category,
 
             // order
-            // todo
+            @RequestParam(defaultValue = "id") String orderBy,
 
             // session
             HttpSession session,
@@ -115,12 +123,11 @@ public class CourseController {
             courseRequest.setInstructorId(Arrays.stream(instructorIdStr.split(",")).collect(Collectors.toList()));
         courseRequest.setCategory(category);
 
-        List<Course> courseList = courseService.searchCourse(courseRequest);
+        List<Course> courseList = courseService.searchCourse(courseRequest, orderBy);
         model.addAttribute("courseList", courseList);
-
         model.addAttribute("timeList", timeList);
-
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("orderChoices", orderChoices);
 
         return "course";
     }
@@ -177,13 +184,13 @@ public class CourseController {
         if (minimumCredit.getSchoolOnlineGenderEqualityEducationCourse()
                 > userCredit.getSchoolOnlineGenderEqualityEducationCourse())
             courseRequest.getCategory().add("school_online_gender_equality_education_course");
-        courseService.searchCourse(courseRequest);
 
         // model
-        List<Course> courseList = courseService.searchCourse(courseRequest);
+        List<Course> courseList = courseService.searchCourse(courseRequest, "id");
         model.addAttribute("courseList", courseList);
         model.addAttribute("timeList", timeList);
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("orderChoices", orderChoices);
 
         return "course";
     }

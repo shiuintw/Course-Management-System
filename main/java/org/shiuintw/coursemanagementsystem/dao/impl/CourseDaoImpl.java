@@ -8,10 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class CourseDaoImpl implements CourseDao {
@@ -122,7 +119,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> searchCourse(Course courseRequest) {
+    public List<Course> searchCourse(Course courseRequest, String orderBy) {
         String sql = "SELECT * FROM course " +
                 "LEFT JOIN course_time USING(id) " +
                 "LEFT JOIN course_classroom USING(id) " +
@@ -189,6 +186,16 @@ public class CourseDaoImpl implements CourseDao {
                 completeCourseList.add(getCourseById((c.getId())));
             }
         }
+        completeCourseList.sort((o1, o2) ->
+            switch(orderBy) {
+                case "id" -> o1.getId().compareTo(o2.getId());
+                case "name" -> o1.getName().compareTo(o2.getName());
+                case "credit" -> o1.getCredit() - o2.getCredit();
+                case "hours" -> o1.getHours() - o2.getHours();
+                case "max_student_number" -> o1.getMaxStudentNumber() - o2.getMaxStudentNumber();
+                case "building_id" -> o1.getBuildingId().compareTo(o2.getBuildingId());
+                default -> o1.getId().compareTo(o2.getId());
+        });
         return completeCourseList;
     }
 }

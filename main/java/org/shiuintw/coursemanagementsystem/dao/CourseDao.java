@@ -10,7 +10,6 @@ public interface CourseDao {
     String addCourse(Course course);
     void updateCourse(Course course);
     void deleteCourse(String id);
-
     // search
-    List<Course> searchCourse(Course courseRequest);
+    List<Course> searchCourse(Course courseRequest, String orderBy);
 }

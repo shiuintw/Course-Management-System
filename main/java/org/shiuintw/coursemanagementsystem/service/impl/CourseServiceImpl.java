@@ -18,7 +18,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> searchCourse(Course courseRequest) {
+    public List<Course> searchCourse(Course courseRequest, String orderBy) {
         if (courseRequest == null) return List.of();
         if (courseRequest.getId() != null && courseRequest.getId().isEmpty())
             courseRequest.setId(null);
@@ -26,6 +26,6 @@ public class CourseServiceImpl implements CourseService {
             courseRequest.setName(null);
         if (courseRequest.getBuildingId() != null && courseRequest.getBuildingId().isEmpty())
             courseRequest.setBuildingId(null);
-        return courseDao.searchCourse(courseRequest);
+        return courseDao.searchCourse(courseRequest, orderBy);
     }
 }

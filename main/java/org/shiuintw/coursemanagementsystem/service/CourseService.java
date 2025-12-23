@@ -5,5 +5,5 @@ import org.shiuintw.coursemanagementsystem.model.Course;
 import java.util.List;
 
 public interface CourseService {
-    List<Course> searchCourse(Course courseRequest);
+    List<Course> searchCourse(Course courseRequest, String OrderBy);
 }

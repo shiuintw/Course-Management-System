@@ -25,10 +25,18 @@
 <h2>Search Filter</h2>
 <form th:action="@{/course/search}" method="get">
     <div>
-        <label>Course ID:</label>
+        <label>Order:</label>
         <label>
-            <input type="text" name="id" th:value="${param.id}">
+            <input type="text"
+                   name="orderBy"
+                   th:value="${param.orderBy}"
+                   list="orderChoices"/>
         </label>
+        <datalist id="orderChoices">
+            <option th:each="o : ${orderChoices}"
+                    th:value="${o}">
+            </option>
+        </datalist>
     </div>
 
     <div>
