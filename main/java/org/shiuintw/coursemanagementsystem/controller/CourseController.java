@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /// Course Controller
@@ -128,6 +125,69 @@ public class CourseController {
         return "course";
     }
     // --- end of search
+    // --- customized search
+    @GetMapping("/customizedSearch")
+    public String customizedSearch(HttpSession session,
+                                   Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        // credit
+        MinimumCredit minimumCredit = minimumCreditService.getMinimumCreditById(user.getDepartmentId());
+        MinimumCredit userCredit = takeService.getCredit(user.getId(), minimumCredit);
+        Course courseRequest = new Course();
+        courseRequest.setCategory(new ArrayList<>());
+        if (minimumCredit.getBasicScience() > userCredit.getBasicScience())
+            courseRequest.getCategory().add("basic_science");
+
+        if (minimumCredit.getCompulsoryCourse() > userCredit.getCompulsoryCourse())
+            courseRequest.getCategory().add("compulsory_course");
+
+        if (minimumCredit.getElectiveProgramCourse() > userCredit.getElectiveProgramCourse())
+            courseRequest.getCategory().add("elective_program_course");
+
+        if (minimumCredit.getElectiveProfessionalCourse() > userCredit.getElectiveProfessionalCourse())
+            courseRequest.getCategory().add("elective_professional_course");
+
+        if (minimumCredit.getFreeElectiveCourse() > userCredit.getFreeElectiveCourse())
+            courseRequest.getCategory().add("free_elective_course");
+
+        if (minimumCredit.getCrossDisciplinaryProgram() > userCredit.getCrossDisciplinaryProgram())
+            courseRequest.getCategory().add("cross_disciplinary_program");
+
+        if (minimumCredit.getSchoolBasicCoreCurriculumCourse() > userCredit.getSchoolBasicCoreCurriculumCourse())
+            courseRequest.getCategory().add("school_basic_core_curriculum_course");
+
+        if (minimumCredit.getSchoolDomainCoreCurriculumCourse() > userCredit.getSchoolDomainCoreCurriculumCourse())
+            courseRequest.getCategory().add("school_domain_core_curriculum_course");
+
+        if (minimumCredit.getSchoolLanguageCourse() > userCredit.getSchoolLanguageCourse())
+            courseRequest.getCategory().add("school_language_course");
+
+        if (minimumCredit.getSchoolPeCourse() > userCredit.getSchoolPeCourse())
+            courseRequest.getCategory().add("school_pe_course");
+
+        if (minimumCredit.getSchoolServiceLearningCourse() > userCredit.getSchoolServiceLearningCourse())
+            courseRequest.getCategory().add("school_service_learning_course");
+
+        if (minimumCredit.getSchoolStudentAcademicResearchEthicsEducationCourse()
+                > userCredit.getSchoolStudentAcademicResearchEthicsEducationCourse())
+            courseRequest.getCategory().add("school_student_academic_research_ethics_education_course");
+
+        if (minimumCredit.getSchoolOnlineGenderEqualityEducationCourse()
+                > userCredit.getSchoolOnlineGenderEqualityEducationCourse())
+            courseRequest.getCategory().add("school_online_gender_equality_education_course");
+        courseService.searchCourse(courseRequest);
+
+        // model
+        List<Course> courseList = courseService.searchCourse(courseRequest);
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("timeList", timeList);
+        model.addAttribute("categoryList", categoryList);
+
+        return "course";
+    }
+    // --- end of customized search
 
     // --- recommending courses
     // todo call searchCourse with param

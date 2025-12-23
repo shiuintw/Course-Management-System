@@ -14,12 +14,15 @@
 <!--go back to home-->
 <a th:href="@{/home}">Home</a>
 
-<!--search filter-->
-<h2>Search Filter</h2>
+<!--customized search-->
+<h2>Customized Search</h2>
 <form th:action="@{/course/customizedSearch}"
-      method="post">
+      method="get">
     <button type="submit">Customized Search</button>
 </form>
+
+<!--search filter-->
+<h2>Search Filter</h2>
 <form th:action="@{/course/search}" method="get">
     <div>
         <label>Course ID:</label>
