@@ -289,7 +289,15 @@
                     </a>
                 </td>
                 <td th:text="${course.classroom}"></td>
-                <td th:text="${course.instructorId}"></td>
+<!--                <td th:text="${course.instructorId}"></td>-->
+                <td>
+                    <span th:each="i, stat : ${course.instructorId}">
+                        <a th:href="@{/instructor/{id}(id=${i})}"
+                           th:text="${i}">
+                        </a>
+                        <span th:if="${!stat.last}">, </span>
+                    </span>
+                </td>
                 <td th:text="${course.category}"></td>
                 <td>
                     <span class="status"
