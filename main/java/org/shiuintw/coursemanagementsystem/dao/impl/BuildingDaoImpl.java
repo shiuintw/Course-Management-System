@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class BuildingDaoImpl implements BuildingDao {
@@ -22,5 +24,14 @@ public class BuildingDaoImpl implements BuildingDao {
     public List<Building> getAllBuildings() {
         String sql = "SELECT * FROM building";
         return namedParameterJdbcTemplate.query(sql, new BuildingRowMapper());
+    }
+
+    @Override
+    public Building getBuildingById(String id) {
+        String sql = "SELECT * FROM building WHERE id = :id";
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        List<Building> buildingList = namedParameterJdbcTemplate.query(sql, map, new BuildingRowMapper());
+        return buildingList.isEmpty() ? null : buildingList.get(0);
     }
 }

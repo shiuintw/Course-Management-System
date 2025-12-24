@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface InstructorService {
     List<Instructor> getAllInstructors();
+    Instructor getInstructorById(String id);
 }

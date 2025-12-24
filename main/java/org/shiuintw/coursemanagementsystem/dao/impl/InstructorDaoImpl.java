@@ -28,4 +28,13 @@ public class InstructorDaoImpl implements InstructorDao {
         List<Instructor> instructorList = namedParameterJdbcTemplate.query(sql, new InstructorRowMapper());
         return instructorList;
     }
+
+    @Override
+    public Instructor getInstructorById(String id) {
+        String sql = "SELECT * FROM instructor WHERE id = :id";
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        List<Instructor> instructorList = namedParameterJdbcTemplate.query(sql, map, new InstructorRowMapper());
+        return instructorList.isEmpty() ? null : instructorList.get(0);
+    }
 }

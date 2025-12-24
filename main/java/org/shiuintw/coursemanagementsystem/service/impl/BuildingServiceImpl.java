@@ -20,4 +20,9 @@ public class BuildingServiceImpl implements BuildingService {
     public List<Building> getAllBuildings() {
         return buildingDao.getAllBuildings();
     }
+
+    @Override
+    public Building getBuildingById(String id) {
+        return buildingDao.getBuildingById(id);
+    }
 }

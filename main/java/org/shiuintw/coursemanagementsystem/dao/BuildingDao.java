@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BuildingDao {
     List<Building> getAllBuildings();
+    Building getBuildingById(String id);
 }

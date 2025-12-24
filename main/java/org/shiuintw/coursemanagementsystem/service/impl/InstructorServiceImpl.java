@@ -21,4 +21,9 @@ public class InstructorServiceImpl implements InstructorService {
     public List<Instructor> getAllInstructors() {
         return instructorDao.getAllInstructors();
     }
+
+    @Override
+    public Instructor getInstructorById(String id) {
+        return instructorDao.getInstructorById(id);
+    }
 }
